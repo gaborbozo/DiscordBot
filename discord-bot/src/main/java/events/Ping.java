@@ -15,8 +15,8 @@ public class Ping extends ListenerAdapter {
         {
             MessageChannel channel = event.getChannel();
             long time = System.currentTimeMillis();
-            channel.sendMessage("Pong!") /* => RestAction<Message> */
-                    .queue(response /* => Message */ -> {
+            channel.sendMessage("Pong!")
+                    .queue(response -> {
                         response.editMessageFormat("Pong: %d ms", System.currentTimeMillis() - time).queue();
                     });
         }
