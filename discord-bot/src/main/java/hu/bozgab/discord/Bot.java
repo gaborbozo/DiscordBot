@@ -1,4 +1,7 @@
-import events.Ping;
+package hu.bozgab.discord;
+
+import hu.bozgab.discord.events.Clear;
+import hu.bozgab.discord.events.Ping;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -12,6 +15,7 @@ public class Bot {
                     .build();
 
             jda.addEventListener(new Ping());
+            jda.addEventListener(new Clear());
         } catch (LoginException e){
             return; }
     }

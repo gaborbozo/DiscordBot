@@ -1,4 +1,4 @@
-package events;
+package hu.bozgab.discord.events;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
