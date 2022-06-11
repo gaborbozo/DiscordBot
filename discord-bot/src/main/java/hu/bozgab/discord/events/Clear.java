@@ -18,8 +18,10 @@ public class Clear extends ListenerAdapter {
                 event.getTextChannel().deleteMessages(messageList).queue();
             }
         } catch (NumberFormatException e) {
-            event.getChannel().sendMessage("**Error!**\n").append(e.getMessage()).queue();
+            event.getChannel().sendMessage("**Error!**\n").append("Given argument is not a number").queue();
         } catch (IllegalArgumentException e){
+            event.getChannel().sendMessage("**Error!**\n").append("Some messages are trying to be deleted were sent more than two weeks ago").queue();
+        } catch (Exception e){
             event.getChannel().sendMessage("**Error!**\n").append(e.getMessage()).queue();
         }
     }
