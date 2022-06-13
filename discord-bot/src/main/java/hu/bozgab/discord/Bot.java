@@ -12,7 +12,7 @@ public class Bot {
     public static void main(String[] args) {
         try {
             JDA jda = JDABuilder.createDefault
-            ("token")
+            (args[0])
                     .build();
 
             jda.addEventListener(new Ping());
