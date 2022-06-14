@@ -12,10 +12,13 @@ public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer audioPlayer;
     private final BlockingQueue<AudioTrack> audioTracks;
 
-    public TrackScheduler(AudioPlayer player) {
-        this.audioPlayer = player;
+    public TrackScheduler(AudioPlayer audioPlayer) {
+        this.audioPlayer = audioPlayer;
         this.audioTracks = new LinkedBlockingQueue<>();
+    }
 
+    public BlockingQueue<AudioTrack> getAudioTracks() {
+        return audioTracks;
     }
 
     public void queue(AudioTrack track) {
@@ -36,4 +39,9 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
 
+
+    @Override
+    public void onPlayerPause(AudioPlayer player) {
+        System.out.println("Paused");
+    }
 }

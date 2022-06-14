@@ -11,14 +11,25 @@ public class Sound extends ListenerAdapter {
         if (event.getAuthor().isBot())
             return;
 
-        String[] message = event.getMessage().getContentRaw().split(" ");
+        String message,command,param;
+        message = event.getMessage().getContentRaw();
+        try{
+            command = message.substring(0,message.indexOf(" "));
+            param = message.substring(message.indexOf(" ") + 1);
+        } catch (StringIndexOutOfBoundsException e){
+            command = message;
+            param = "";
+        }
 
-        if(message[0].equals("!join")){
-            MusicManager.getMusicManager().join(event);
-        } else if(message[0].equals("!leave")){
-            MusicManager.getMusicManager().leave();
-        } else if (message[0].equals("!play") && message.length > 1){
-            MusicManager.getMusicManager().play(message[1], event);
+        MusicManager musicManager = MusicManager.getMusicManager();
+
+        switch (command){
+            case "!join": musicManager.join(event); break;
+            case "!leave": musicManager.leave(); break;
+            case "!play": musicManager.play(param,event); break;
+            case "!pause": musicManager.pause(); break;
+            case "!continue": musicManager.resume(); break;
+            case "!next": musicManager.next(); break;
         }
     }
 }

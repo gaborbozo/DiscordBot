@@ -32,6 +32,7 @@ public class MusicManager {
 
         audioPlayer = audioPlayerManager.createPlayer();
         trackScheduler = new TrackScheduler(audioPlayer);
+        audioPlayer.addListener(trackScheduler);
     }
 
     public void play(String trackURL, MessageReceivedEvent event){
@@ -42,7 +43,7 @@ public class MusicManager {
 
                 event.getChannel().sendMessage("Adding to queue **")
                         .append(audioTrack.getInfo().author).append(" - ")
-                        .append(audioTrack.getInfo().title).append("**").queue();
+                        .append(audioTrack.getInfo().title).append("**").append(String.valueOf(trackScheduler.getAudioTracks().size())).queue();
             }
 
             @Override
@@ -94,4 +95,15 @@ public class MusicManager {
         }
     }
 
+    public void pause(){
+        audioPlayer.setPaused(true);
+    }
+
+    public void resume() {
+        audioPlayer.setPaused(false);
+    }
+
+    public void next() {
+        trackScheduler.nextTrack();
+    }
 }
