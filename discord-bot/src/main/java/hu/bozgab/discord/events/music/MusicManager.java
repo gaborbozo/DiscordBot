@@ -56,7 +56,7 @@ public class MusicManager {
 
                 event.getChannel().sendMessage("Adding to queue **")
                         .append(audioTrack.getInfo().author).append(" : ")
-                        .append(audioTrack.getInfo().title).append("**").append(String.valueOf(trackScheduler.getAudioTracks().size())).queue();
+                        .append(audioTrack.getInfo().title).append("**").queue();
             }
 
             @Override
@@ -74,7 +74,7 @@ public class MusicManager {
 
             @Override
             public void noMatches() {
-
+                event.getChannel().sendMessage("Music not found!").queue();
             }
 
             @Override
