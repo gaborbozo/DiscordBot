@@ -12,6 +12,9 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class MusicManager {
     private static MusicManager musicManager = null;
     AudioManager discordAudioManager;
@@ -36,13 +39,23 @@ public class MusicManager {
     }
 
     public void play(String trackURL, MessageReceivedEvent event){
+        if(!isURI(trackURL))
+            trackURL = "ytsearch:" + trackURL + " audio";
+
+        try {
+            if(!discordAudioManager.isConnected())
+                join(event);
+        }
+        catch (NullPointerException e){
+            join(event);
+        }
         audioPlayerManager.loadItem(trackURL, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 trackScheduler.queue(audioTrack);
 
                 event.getChannel().sendMessage("Adding to queue **")
-                        .append(audioTrack.getInfo().author).append(" - ")
+                        .append(audioTrack.getInfo().author).append(" : ")
                         .append(audioTrack.getInfo().title).append("**").append(String.valueOf(trackScheduler.getAudioTracks().size())).queue();
             }
 
@@ -55,7 +68,7 @@ public class MusicManager {
                 trackScheduler.queue(audioTrack);
 
                 event.getChannel().sendMessage("Adding to queue **")
-                        .append(audioTrack.getInfo().author).append(" - ")
+                        .append(audioTrack.getInfo().author).append(" : ")
                         .append(audioTrack.getInfo().title).append("**").queue();
             }
 
@@ -66,9 +79,18 @@ public class MusicManager {
 
             @Override
             public void loadFailed(FriendlyException e) {
-
+                event.getChannel().sendMessage(e.getMessage()).queue();
             }
         });
+    }
+
+    public boolean isURI(String data){
+        try {
+            new URI(data);
+            return true;
+        } catch (URISyntaxException e){
+            return false;
+        }
     }
 
     public void join(MessageReceivedEvent event){
@@ -93,6 +115,7 @@ public class MusicManager {
         if(discordAudioManager.isConnected()){
             discordAudioManager.closeAudioConnection();
         }
+        pause();
     }
 
     public void pause(){

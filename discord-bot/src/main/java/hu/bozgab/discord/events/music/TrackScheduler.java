@@ -39,9 +39,4 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
 
-
-    @Override
-    public void onPlayerPause(AudioPlayer player) {
-        System.out.println("Paused");
-    }
 }
